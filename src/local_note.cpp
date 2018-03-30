@@ -15,10 +15,13 @@ LocalNote::LocalNote() : LocalNote(QString(), QString(), QList<QString>(), QList
  * @param externalId The note external id.
  * @param deleted True if the note is deleted, false - otherwise.
  * @param synchronized True if the note is synchronized, false - otherwise.
+ * @param audioFilePath The note's audio file path.
  */
 LocalNote::LocalNote(const QString &title, const QString &description, QList<QString> picturePaths,
-                     QList<QString> hashes, const QString &externalId, const bool deleted, const bool synchronized)
-    : LocalNote(0, title, description, picturePaths, hashes, externalId, deleted, synchronized) { }
+                     QList<QString> hashes, const QString &externalId, const bool deleted,
+                     const bool synchronized, const QString &audioFilePath)
+    : LocalNote(0, title, description, picturePaths, hashes, externalId, deleted, synchronized,
+                audioFilePath) { }
 
 /**
  * @brief The constructor.
@@ -30,9 +33,11 @@ LocalNote::LocalNote(const QString &title, const QString &description, QList<QSt
  * @param externalId the note external id.
  * @param deleted True if the note is deleted, false - otherwise.
  * @param synchronized True if the note is synchronized, false - otherwise.
+ * @param audioFilePath The note's audio file path.
  */
-LocalNote::LocalNote(const int id, const QString &title, const QString &description, QList<QString> picturePaths,
-                     QList<QString> hashes, const QString &externalId, const bool deleted, const bool synchronized)
+LocalNote::LocalNote(const int id, const QString &title, const QString &description,
+                     QList<QString> picturePaths, QList<QString> hashes, const QString &externalId,
+                     const bool deleted, const bool synchronized, const QString &audioFilePath)
 {
     this->id = id;
     this->title = title;
@@ -42,6 +47,7 @@ LocalNote::LocalNote(const int id, const QString &title, const QString &descript
     this->externalId = externalId;
     this->deleted = deleted;
     this->synchronized = synchronized;
+    this->audioFilePath = audioFilePath;
 }
 
 /**
@@ -56,10 +62,13 @@ LocalNote::LocalNote(const int id, const QString &title, const QString &descript
  * @param externalId the note external id.
  * @param deleted True if the note is deleted, false - otherwise.
  * @param synchronized True if the note is synchronized, false - otherwise.
+ * @param audioFilePath The note's audio file path.
  */
-LocalNote::LocalNote(const int id, const QString &title, const QString &description, const QString &picturePaths,
-                     const QString &hashes, const QString &tagExternalIds, const QString &tagNames, const qint64 reminderTimestamp,
-                     const QString &externalId, const bool deleted, const bool synchronized)
+LocalNote::LocalNote(const int id, const QString &title, const QString &description,
+                     const QString &picturePaths, const QString &hashes,
+                     const QString &tagExternalIds, const QString &tagNames,
+                     const qint64 reminderTimestamp, const QString &externalId,
+                     const bool deleted, const bool synchronized, const QString &audioFilePath)
 {
     this->id = id;
     this->title = title;
@@ -71,6 +80,7 @@ LocalNote::LocalNote(const int id, const QString &title, const QString &descript
     this->externalId = externalId;
     this->deleted = deleted;
     this->synchronized = synchronized;
+    this->audioFilePath = audioFilePath;
 }
 
 /**
@@ -363,5 +373,21 @@ bool LocalNote::isSynchronized() const { return this->synchronized; }
  * @param synchronized True if the note is synchronized, false - otherwise.
  */
 void LocalNote::setSynchronized(const bool synchronized)  { this->synchronized = synchronized; }
+
+/*!
+ * \return The note's audio file path.
+ */
+QString LocalNote::getAudioFilePath() const {
+    return audioFilePath;
+}
+
+/*!
+ * \brief Sets the note's audio file path.
+ * \param path The audio file path.
+ */
+void LocalNote::setAudioFilePath(const QString &path) {
+    this->audioFilePath = path;
+    emit audioFilePathChanged();
+}
 
 

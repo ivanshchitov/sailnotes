@@ -138,6 +138,7 @@ Dialog {
                 id: audioPlayer
                 x: Theme.paddingMedium
                 width: parent.width - 2 * Theme.paddingMedium
+                audioFilePath: localNote.audioFilePath
             }
 
             SilicaGridView {
@@ -195,5 +196,6 @@ Dialog {
         localNote.description = placeholderVisible ? "" : descriptionTextEdit.text
                 .substring(descriptionTextEdit.text.indexOf("<body"), descriptionTextEdit.text.indexOf("</body>"))
                 .replace(/<body.*?>([\s\S]*)/,"$1");
+        localNote.audioFilePath = audioPlayer.audioFileExists ? audioPlayer.audioFilePath : "";
     }
 }

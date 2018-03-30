@@ -89,6 +89,7 @@ Page {
                                                                   tagExternalIds, reminderTimestamp);
                         localNote.id = id;
                         localNote.externalId = externalId;
+                        localNote.audioFilePath = audioFilePath;
                         var dialog = pageStack.push(Qt.resolvedUrl("../dialogs/EditNoteDialog.qml"), {localNote: localNote});
                         dialog.accepted.connect(function() {
                             if (dialog.needRemovePicture) {
@@ -116,6 +117,7 @@ Page {
                             .getPicturePaths().forEach(function(path) {
                                 fileHelper.removeFile(path);
                             });
+                        audioRecorder.removeAudioFile(audioFilePath);
                         databaseManager.deleteNoteById(id);
                         notificationManager.removeNotification(id);
                         evernoteSynchronizer.startSynchronization();

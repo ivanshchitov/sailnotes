@@ -19,6 +19,7 @@ const QString DatabaseManager::REMINDER_TIMESTAMP_FIELD = "reminderTimestamp";
 const QString DatabaseManager::EXTERNAL_ID_FIELD = "externalId";
 const QString DatabaseManager::DELETED_FIELD = "deleted";
 const QString DatabaseManager::SYNCHRONIZED_FIELD = "synchronized";
+const QString DatabaseManager::AUDIO_FILE_PATH_FIELD = "audioFilePath";
 
 /**
  * @brief The constructor.
@@ -36,6 +37,7 @@ void DatabaseManager::connectToDatabase()
 {
     openDatabase();
     createNotesTable();
+    addAudioFilePathColumn();
 }
 
 /**
@@ -46,8 +48,10 @@ void DatabaseManager::connectToDatabase()
 int DatabaseManager::createNote(LocalNote *localNote)
 {
     QSqlQuery query;
-    query.prepare("INSERT INTO notes (title, description, picturePaths, hashes, tagExternalIds, tagNames, reminderTimestamp, externalId, synchronized) "
-                  "VALUES (:title, :description, :picturePaths, :hashes, :tagExternalIds, :tagNames, :reminderTimestamp, :externalId, :synchronized);");
+    query.prepare("INSERT INTO notes (title, description, picturePaths, hashes, tagExternalIds, "
+                  "tagNames, reminderTimestamp, externalId, synchronized, audioFilePath) "
+                  "VALUES (:title, :description, :picturePaths, :hashes, :tagExternalIds, "
+                  ":tagNames, :reminderTimestamp, :externalId, :synchronized, :audioFilePath);");
     query.bindValue(":title", localNote->getTitle());
     query.bindValue(":description", localNote->getDescription());
     query.bindValue(":picturePaths", localNote->getPicturePathsAsString());
@@ -57,6 +61,7 @@ int DatabaseManager::createNote(LocalNote *localNote)
     query.bindValue(":reminderTimestamp", localNote->getReminderTimestamp());
     query.bindValue(":externalId", localNote->getExternalId());
     query.bindValue(":synchronized", localNote->isSynchronized());
+    query.bindValue(":audioFilePath", localNote->getAudioFilePath());
     if (!query.exec()) {
         qDebug() << query.lastQuery();
         qDebug() << "QDEBUG: New note isn't inserted: " + query.lastError().text();
@@ -71,10 +76,11 @@ int DatabaseManager::createNote(LocalNote *localNote)
 void DatabaseManager::updateNote(LocalNote *localNote)
 {
     QSqlQuery query;
-    query.prepare("UPDATE notes SET title = :title, description = :description, picturePaths = :picturePaths, "
-                  "hashes = :hashes, tagExternalIds = :tagExternalIds, tagNames = :tagNames, "
-                  "reminderTimestamp = :reminderTimestamp, externalId = :externalId, "
-                  "synchronized = :synchronized WHERE id = :id;");
+    query.prepare("UPDATE notes SET title = :title, description = :description, "
+                  "picturePaths = :picturePaths, hashes = :hashes, tagExternalIds = :tagExternalIds,"
+                  "tagNames = :tagNames, reminderTimestamp = :reminderTimestamp, "
+                  "externalId = :externalId, synchronized = :synchronized, "
+                  "audioFilePath = :audioFilePath WHERE id = :id;");
     query.bindValue(":title", localNote->getTitle());
     query.bindValue(":description", localNote->getDescription());
     query.bindValue(":picturePaths", localNote->getPicturePathsAsString());
@@ -84,6 +90,7 @@ void DatabaseManager::updateNote(LocalNote *localNote)
     query.bindValue(":reminderTimestamp", localNote->getReminderTimestamp());
     query.bindValue(":externalId", localNote->getExternalId());
     query.bindValue(":synchronized", localNote->isSynchronized());
+    query.bindValue(":audioFilePath", localNote->getAudioFilePath());
     query.bindValue(":id", localNote->getId());
     if (!query.exec()) {
         qDebug() << query.lastQuery();
@@ -141,7 +148,8 @@ QList<LocalNote*> DatabaseManager::retrieveAllNotes()
                                         query.value(REMINDER_TIMESTAMP_FIELD).toLongLong(),
                                         query.value(EXTERNAL_ID_FIELD).toString(),
                                         query.value(DELETED_FIELD).toBool(),
-                                        query.value(SYNCHRONIZED_FIELD).toBool()));
+                                        query.value(SYNCHRONIZED_FIELD).toBool(),
+                                        query.value(AUDIO_FILE_PATH_FIELD).toString()));
     }
     return localNotes;
 }
@@ -167,7 +175,8 @@ LocalNote* DatabaseManager::retrieveLocalNoteByExternalId(const QString &externa
                              query.value(REMINDER_TIMESTAMP_FIELD).toLongLong(),
                              query.value(EXTERNAL_ID_FIELD).toString(),
                              query.value(DELETED_FIELD).toBool(),
-                             query.value(SYNCHRONIZED_FIELD).toBool());
+                             query.value(SYNCHRONIZED_FIELD).toBool(),
+                             query.value(AUDIO_FILE_PATH_FIELD).toString());
     } else {
         return NULL;
     }
@@ -231,9 +240,23 @@ void DatabaseManager::createNotesTable()
                                  "%7 TEXT, %8 INTEGER DEFAULT 0, %9 TEXT, "
                                  "%10 INTEGER NOT NULL DEFAULT 0, %11 INTEGER NOT NULL DEFAULT 0);")
                   .arg(TABLE_NAME).arg(TITLE_FIELD).arg(DESCRIPTION_FIELD).arg(PICTURE_PATHS_FIELD)
-                  .arg(HASHES_FIELD).arg(TAG_EXTERNAL_IDS_FIELD).arg(TAG_NAMES_FIELD).arg(REMINDER_TIMESTAMP_FIELD)
-                  .arg(EXTERNAL_ID_FIELD).arg(DELETED_FIELD).arg(SYNCHRONIZED_FIELD));
+                  .arg(HASHES_FIELD).arg(TAG_EXTERNAL_IDS_FIELD).arg(TAG_NAMES_FIELD)
+                  .arg(REMINDER_TIMESTAMP_FIELD).arg(EXTERNAL_ID_FIELD).arg(DELETED_FIELD)
+                  .arg(SYNCHRONIZED_FIELD));
     if (!query.exec()) {
         qDebug() << "QDEBUG: Table is not created: " + query.lastError().text();
+    }
+}
+
+/*!
+ * \brief Adds the 'audioFilePath' column to the 'notes' table.
+ */
+void DatabaseManager::addAudioFilePathColumn()
+{
+    QSqlQuery query;
+    query.prepare(QString("ALTER TABLE %1 ADD COLUMN %2 TEXT DEFAULT ''")
+                  .arg(TABLE_NAME).arg(AUDIO_FILE_PATH_FIELD));
+    if (!query.exec()) {
+        qDebug() << "QDEBUG: Column 'audioFilePath' is not added: " + query.lastError().text();
     }
 }

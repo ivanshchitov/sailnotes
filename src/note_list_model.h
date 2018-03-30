@@ -19,7 +19,8 @@ public:
         reminderTimestampRole,
         externalIdRole,
         deletedRole,
-        synchronizedRole
+        synchronizedRole,
+        audioFilePath
     };
 
     explicit NoteListModel(QObject *parent = 0);

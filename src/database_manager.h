@@ -35,11 +35,13 @@ private:
     static const QString EXTERNAL_ID_FIELD;
     static const QString DELETED_FIELD;
     static const QString SYNCHRONIZED_FIELD;
+    static const QString AUDIO_FILE_PATH_FIELD;
 
     QSqlDatabase database;
 
     void openDatabase();
     void createNotesTable();
+    void addAudioFilePathColumn();
 
 signals:
 

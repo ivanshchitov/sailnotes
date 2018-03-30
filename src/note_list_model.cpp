@@ -18,6 +18,7 @@ NoteListModel::NoteListModel(QObject *parent) : QSqlQueryModel(parent)
     rolesHash[externalIdRole] = "externalId";
     rolesHash[deletedRole] = "deleted";
     rolesHash[synchronizedRole] = "synchronized";
+    rolesHash[audioFilePath] = "audioFilePath";
     updateModel();
 }
 
