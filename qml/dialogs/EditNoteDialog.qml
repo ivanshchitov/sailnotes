@@ -1,6 +1,8 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
+import "../components"
+
 
 Dialog {
 
@@ -131,6 +133,11 @@ Dialog {
                         });
                     }
                 }
+            }
+            AudioPlayer {
+                id: audioPlayer
+                x: Theme.paddingMedium
+                width: parent.width - 2 * Theme.paddingMedium
             }
 
             SilicaGridView {

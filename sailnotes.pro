@@ -59,5 +59,6 @@ DISTFILES += \
     qml/pages/TagsPage.qml \
     qml/dialogs/EditReminderDialog.qml \
     harbour-sailnotes.desktop \
+    qml/components/AudioPlayer.qml
 
-QT += core network sql xml gui dbus
+QT += core network sql xml gui dbus multimedia
