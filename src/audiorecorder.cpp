@@ -1,6 +1,8 @@
 #include "audiorecorder.h"
 
 #include <QDir>
+#include <QUrl>
+#include <QUuid>
 #include <QStandardPaths>
 
 /*!
@@ -40,7 +42,7 @@ QString AudioRecorder::createAudioFileName() {
  * \param path The path to the audio file.
  * \return True if the audio file is exist by the given path, false - otherwise.
  */
-bool AudioRecorder::isExistAudioFile(const QString& path) {
+bool AudioRecorder::isAudioFileExist(const QString& path) {
     return QFile::exists(path);
 }
 
@@ -50,6 +52,7 @@ bool AudioRecorder::isExistAudioFile(const QString& path) {
  */
 void AudioRecorder::removeAudioFile(const QString& path) {
     if (QFile::exists(path)) QFile(path).remove();
+    emit audioFileChanged();
 }
 
 /*!
@@ -59,7 +62,7 @@ void AudioRecorder::removeAudioFile(const QString& path) {
 void AudioRecorder::record(const QString& path) {
     recorder->setOutputLocation(QUrl(path));
     if (recorder->state() == QMediaRecorder::StoppedState) {
-        recorder.record();
+        recorder->record();
         recording = true;
         emit recordingChanged();
     }
@@ -73,5 +76,6 @@ void AudioRecorder::stop() {
         recorder->stop();
         recording = false;
         emit recordingChanged();
+        emit audioFileChanged();
     }
 }

@@ -17,17 +17,18 @@ public:
     bool isRecording() const;
 
     Q_INVOKABLE QString createAudioFileName();
-    Q_INVOKABLE bool isExistAudioFile (const QString& path);
+    Q_INVOKABLE bool isAudioFileExist (const QString& path);
     Q_INVOKABLE void removeAudioFile(const QString& path);
     Q_INVOKABLE void record(const QString& path);
     Q_INVOKABLE void stop();
 
 private:
-    QAudioRecorder recorder;
+    QAudioRecorder* recorder;
     bool recording;
 
 signals:
     void recordingChanged();
+    void audioFileChanged();
 };
 
 #endif // AUDIORECORDER_H

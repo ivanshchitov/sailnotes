@@ -7,6 +7,8 @@ import harbour.sailnotes.noteListModel 1.0
 import harbour.sailnotes.databaseManager 1.0
 import harbour.sailnotes.notificationManager 1.0
 import harbour.sailnotes.evernoteSynchronizer 1.0
+
+import harbour.sailnotes 1.0
 import "pages"
 
 ApplicationWindow
@@ -30,6 +32,7 @@ ApplicationWindow
         settings: settings
         fileHelper: fileHelper
     }
+    AudioRecorder { id: audioRecorder }
 
     ConfigurationValue {
         id: timeFormatConfig
