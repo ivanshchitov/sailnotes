@@ -1,13 +1,18 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
+import "../components"
+
 Page {
+
+    id: page
 
     property string title
     property string description
     property string picturePaths
     property string tags
     property double reminderTimestamp
+    property string audioFilePath
 
     SilicaFlickable {
 
@@ -26,7 +31,8 @@ Page {
             id: column
             width: parent.width
             height: tagsLabel.contentHeight + reminderLabel.contentHeight + titleLabel.contentHeight
-                    + descriptionLabel.contentHeight + imageListView.contentHeight + 10 * Theme.paddingLarge
+                    + descriptionLabel.contentHeight + imageListView.contentHeight
+                    + audioPlayer.height + 10 * Theme.paddingLarge
             anchors.top: header.bottom
             spacing: Theme.paddingLarge
 
@@ -81,6 +87,15 @@ Page {
                     right: parent.right
                     margins: Theme.paddingLarge
                 }
+            }
+
+            AudioPlayer {
+                id: audioPlayer
+                x: Theme.paddingMedium
+                width: parent.width
+                audioFilePath: page.audioFilePath
+                visible: audioFilePath.length > 0
+                allowEditing: false
             }
 
             SilicaListView {

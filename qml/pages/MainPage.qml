@@ -78,7 +78,8 @@ Page {
             onClicked: {
                 pageStack.push(Qt.resolvedUrl("NoteDetailsPage.qml"),
                                {title: title, description: description, picturePaths: picturePaths,
-                                   tags: tagNames, reminderTimestamp: reminderTimestamp});
+                                   tags: tagNames, reminderTimestamp: reminderTimestamp,
+                                   audioFilePath: audioFilePath});
             }
 
             menu: ContextMenu {

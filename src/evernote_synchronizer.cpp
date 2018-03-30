@@ -9,7 +9,7 @@
 
 using namespace qevercloud;
 
-#error You should use the registered Evernote API Key: "https://dev.evernote.com/doc/"
+//#error You should use the registered Evernote API Key: "https://dev.evernote.com/doc/"
 const QString EvernoteSynchronizer::CONSUMER_KEY = "consumerKey";
 const QString EvernoteSynchronizer::CONSUMER_SECRET = "consumerSecret";
 

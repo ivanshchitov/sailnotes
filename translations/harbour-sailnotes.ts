@@ -122,12 +122,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="86"/>
+        <location filename="../qml/pages/MainPage.qml" line="87"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="113"/>
+        <location filename="../qml/pages/MainPage.qml" line="114"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
@@ -135,17 +135,17 @@
 <context>
     <name>NoteDetailsPage</name>
     <message>
-        <location filename="../qml/pages/NoteDetailsPage.qml" line="22"/>
+        <location filename="../qml/pages/NoteDetailsPage.qml" line="27"/>
         <source>Details</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NoteDetailsPage.qml" line="35"/>
+        <location filename="../qml/pages/NoteDetailsPage.qml" line="41"/>
         <source>Tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NoteDetailsPage.qml" line="48"/>
+        <location filename="../qml/pages/NoteDetailsPage.qml" line="54"/>
         <source>Reminder</source>
         <translation type="unfinished"></translation>
     </message>

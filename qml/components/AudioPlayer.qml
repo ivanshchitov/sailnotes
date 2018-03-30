@@ -7,6 +7,7 @@ Item {
     property bool isRecord: false
     property string audioFilePath: ""
     property bool audioFileExists: audioRecorder.isAudioFileExist(audioFilePath)
+    property bool allowEditing: true
 
     height: Theme.itemSizeLarge
 
@@ -34,34 +35,38 @@ Item {
         }
     }
 
-    Row {
-        width: parent.width
-        IconButton {
-            id: recordButton
-            icon.source: audioRecorder.isRecording
-                         ? "../icons/reddot.png" : "image://theme/icon-m-dot"
-            enabled: player.playbackState !== MediaPlayer.PlayingState && !audioFileExists
-            onClicked: handleRecordButtonClick()
-        }
-        IconButton {
-            id: playButton
-            icon.source: player.playbackState === MediaPlayer.PlayingState
-                         ? "image://theme/icon-m-tabs" : "image://theme/icon-m-media"
-            enabled: !audioRecorder.isRecording && audioFileExists
-            onClicked: handlePlayButtonClick()
-        }
-        ProgressBar {
-            id: progressBar
-            width: parent.width - recordButton.width - playButton.width - deleteButton.width
-            maximumValue: player.duration > 0 && isRecord == false ? player.duration / 100 : 1200
-        }
-        IconButton {
-            id: deleteButton
-            icon.source: "image://theme/icon-m-delete"
-            enabled: playButton.enabled
-            onClicked: {
-                audioRecorder.removeAudioFile(audioFilePath);
-            }
+    IconButton {
+        id: recordButton
+        anchors.left: parent.left
+        icon.source: audioRecorder.isRecording
+                     ? "../icons/reddot.png" : "image://theme/icon-m-dot"
+        enabled: player.playbackState !== MediaPlayer.PlayingState && !audioFileExists
+        visible: allowEditing
+        onClicked: handleRecordButtonClick()
+    }
+    IconButton {
+        id: playButton
+        anchors.left: recordButton.visible ? recordButton.right : parent.left
+        icon.source: player.playbackState === MediaPlayer.PlayingState
+                     ? "image://theme/icon-m-tabs" : "image://theme/icon-m-media"
+        enabled: !audioRecorder.isRecording && audioFileExists
+        onClicked: handlePlayButtonClick()
+    }
+    ProgressBar {
+        id: progressBar
+        anchors.left: playButton.right
+        anchors.right: deleteButton.visible ? deleteButton.left : parent.right
+        maximumValue: player.duration > 0 && isRecord == false ? player.duration / 100 : 1200
+    }
+    IconButton {
+        id: deleteButton
+        anchors.right: parent.right
+        icon.source: "image://theme/icon-m-delete"
+        enabled: playButton.enabled
+        visible: allowEditing
+        onClicked: {
+            audioRecorder.removeAudioFile(audioFilePath);
+            audioFilePath = "";
         }
     }
 
