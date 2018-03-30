@@ -12,7 +12,8 @@ SOURCES += src/sailnotes.cpp \
     src/database_manager.cpp \
     src/note_list_model.cpp \
     src/local_note.cpp \
-    src/notification_manager.cpp
+    src/notification_manager.cpp \
+    src/audiorecorder.cpp
 
 OTHER_FILES += qml/sailnotes.qml \
     qml/cover/CoverPage.qml \
@@ -40,7 +41,8 @@ HEADERS += \
     src/database_manager.h \
     src/note_list_model.h \
     src/local_note.h \
-    src/notification_manager.h
+    src/notification_manager.h \
+    src/audiorecorder.h
 
 DISTFILES += \
     qml/pages/CameraPage.qml \
