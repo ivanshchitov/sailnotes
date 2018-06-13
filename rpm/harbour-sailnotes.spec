@@ -25,7 +25,10 @@ BuildRequires:  pkgconfig(sailfishapp) >= 1.0.2
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(Qt5Quick)
+BuildRequires:  pkgconfig(Qt5Multimedia)
+BuildRequires:  pkgconfig(Qt5Xml)
 BuildRequires:  pkgconfig(nemonotifications-qt5)
+BuildRequires:  pkgconfig(dbus-1)
 BuildRequires:  desktop-file-utils
 
 %description
