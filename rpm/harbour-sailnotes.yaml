@@ -31,6 +31,7 @@ PkgConfigBR:
   - Qt5Quick
   - Qt5Multimedia
   - Qt5Xml
+  - Qt5DBus
   - nemonotifications-qt5
   - dbus-1
 
