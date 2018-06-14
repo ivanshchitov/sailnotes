@@ -63,4 +63,4 @@ DISTFILES += \
     harbour-sailnotes.desktop \
     qml/components/AudioPlayer.qml
 
-QT += core network sql xml gui dbus multimedia
+QT += core network sql xml gui dbus multimedia concurrent
